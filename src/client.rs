@@ -36,6 +36,7 @@ async fn bidirectional_streaming_echo_throttle(client: &mut EchoClient<Channel>,
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   let args: Vec<String> = env::args().collect();
   let connect_to = String::from(args[1].clone());
+  let interval: u64 = args[2].parse::<u64>().unwrap();
   let endpoint = tonic::transport::Endpoint::from_shared(connect_to).unwrap()
       .timeout(Duration::from_secs(5));
 
@@ -45,7 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   // Exiting client with CTRL+C demonstrate how to distinguish broken pipe from
   //graceful client disconnection (above example) on the server side.
   println!("\r\nBidirectional stream echo (kill client with CTLR+C):");
-  bidirectional_streaming_echo_throttle(&mut client, Duration::from_secs()).await;
+  bidirectional_streaming_echo_throttle(&mut client, Duration::from_secs(interval)).await;
 
   Ok(())
 }
