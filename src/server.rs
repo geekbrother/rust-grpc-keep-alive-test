@@ -99,7 +99,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       .http2_keepalive_timeout(Some(Duration::from_secs(3)))
       .max_concurrent_streams(Some(128))
       .add_service(pb::echo_server::EchoServer::new(server))
-      .serve("[::1]:50051".to_socket_addrs().unwrap().next().unwrap())
+      .serve("[::]:50051".to_socket_addrs().unwrap().next().unwrap())
       .await
       .unwrap();
 
